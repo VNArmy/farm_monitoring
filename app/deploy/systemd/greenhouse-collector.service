@@ -1,0 +1,41 @@
+[Unit]
+Description=Giám sát nhà kính: collector (process duy nhất chạm vào bus Modbus)
+Documentation=file:///opt/greenhouse/app/README.md
+After=network-online.target time-sync.target
+Wants=network-online.target
+
+[Service]
+Type=notify
+NotifyAccess=main
+User=greenhouse
+Group=greenhouse
+SupplementaryGroups=dialout
+WorkingDirectory=/opt/greenhouse/app
+Environment=GREENHOUSE_DATA_DIR=/var/lib/greenhouse
+Environment=GREENHOUSE_COLLECTOR_SOCKET=unix:/run/greenhouse/collector.sock
+EnvironmentFile=-/etc/greenhouse/greenhouse.env
+ExecStart=/opt/greenhouse/app/.venv/bin/greenhouse collector
+Restart=always
+RestartSec=3
+# Worker treo quá 60 giây thì collector ngừng báo sống và systemd khởi động lại (spec mục 5).
+WatchdogSec=60
+TimeoutStopSec=20
+# Thiếu RAM thì hệ điều hành giết Chromium của HMI trước, không bao giờ giết collector.
+OOMScoreAdjust=-500
+RuntimeDirectory=greenhouse
+RuntimeDirectoryMode=0750
+RuntimeDirectoryPreserve=yes
+StateDirectory=greenhouse
+StateDirectoryMode=0750
+UMask=0007
+
+NoNewPrivileges=yes
+ProtectSystem=strict
+ProtectHome=yes
+PrivateTmp=yes
+ReadWritePaths=/var/lib/greenhouse
+# Thư mục backup trên USB (GREENHOUSE_BACKUP_DIR trong /etc/greenhouse/greenhouse.env); bỏ qua nếu chưa có.
+ReadWritePaths=-/mnt/greenhouse-backup
+
+[Install]
+WantedBy=multi-user.target

@@ -1,0 +1,28 @@
+# Caddy trước web app: HTTPS bằng chứng chỉ nội bộ (Caddy tự tạo CA) cho tablet và điện thoại trong LAN.
+# install.sh chép file này vào /etc/caddy/Caddyfile. Cổng HMI 127.0.0.1:8081 không đi qua Caddy (spec mục 10).
+#
+# Chứng chỉ cấp theo yêu cầu cho địa chỉ IP hoặc tên máy mà trình duyệt dùng; web app trả lời /api/tls-ask
+# để chỉ cho phép IP mạng riêng, tên *.local, tên máy của Pi và địa chỉ đặt ở Cài đặt.
+# Lần đầu mở, trình duyệt báo chứng chỉ chưa tin cậy: cài CA gốc của Caddy lên tablet và điện thoại
+# (/var/lib/caddy/.local/share/caddy/pki/authorities/local/root.crt), xem README.
+
+{
+	on_demand_tls {
+		ask http://127.0.0.1:8080/api/tls-ask
+	}
+}
+
+https:// {
+	tls internal {
+		on_demand
+	}
+	encode zstd gzip
+	reverse_proxy 127.0.0.1:8080 {
+		# SSE: đẩy từng sự kiện ngay, không gom bộ đệm
+		flush_interval -1
+	}
+}
+
+http:// {
+	redir https://{host}{uri} permanent
+}

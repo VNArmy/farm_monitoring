@@ -1,0 +1,6 @@
+[Unit]
+Description=Giám sát nhà kính: khởi động lại màn HMI để xả bộ nhớ Chromium tích lũy khi chạy nhiều ngày
+
+[Service]
+Type=oneshot
+ExecStart=/bin/systemctl try-restart greenhouse-hmi.service

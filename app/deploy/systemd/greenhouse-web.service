@@ -1,0 +1,29 @@
+[Unit]
+Description=Giám sát nhà kính: web app (127.0.0.1:8080, sau Caddy) và cổng HMI chỉ đọc (127.0.0.1:8081)
+Documentation=file:///opt/greenhouse/app/README.md
+After=network-online.target greenhouse-collector.service
+Wants=greenhouse-collector.service
+
+[Service]
+Type=simple
+User=greenhouse
+Group=greenhouse
+WorkingDirectory=/opt/greenhouse/app
+Environment=GREENHOUSE_DATA_DIR=/var/lib/greenhouse
+Environment=GREENHOUSE_COLLECTOR_SOCKET=unix:/run/greenhouse/collector.sock
+EnvironmentFile=-/etc/greenhouse/greenhouse.env
+ExecStart=/opt/greenhouse/app/.venv/bin/greenhouse web
+Restart=always
+RestartSec=3
+TimeoutStopSec=10
+UMask=0007
+
+NoNewPrivileges=yes
+ProtectSystem=strict
+ProtectHome=yes
+PrivateTmp=yes
+ReadWritePaths=/var/lib/greenhouse
+ReadWritePaths=-/mnt/greenhouse-backup
+
+[Install]
+WantedBy=multi-user.target

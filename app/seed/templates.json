@@ -1,0 +1,37 @@
+[
+  {
+    "name": "Node tốc độ gió",
+    "category": "wind",
+    "channels": [
+      {"key": "wind_speed", "label": "Tốc độ gió", "unit": "m/s",
+       "fc": 4, "address": 1, "type": "int16", "scale": 0.1,
+       "min": 0, "max": 60, "display_min": 0, "display_max": 15,
+       "invalid_value": -32768}
+    ]
+  },
+  {
+    "name": "Node nhiệt ẩm, ánh sáng",
+    "category": "climate",
+    "channels": [
+      {"key": "temperature", "label": "Nhiệt độ", "unit": "°C",
+       "fc": 4, "address": 0, "type": "float32", "byte_order": "ABCD",
+       "min": -40, "max": 80, "display_min": 0, "display_max": 50},
+      {"key": "humidity", "label": "Độ ẩm", "unit": "%RH",
+       "fc": 4, "address": 2, "type": "float32", "byte_order": "ABCD",
+       "min": 0, "max": 100, "display_min": 0, "display_max": 100},
+      {"key": "illuminance", "label": "Ánh sáng", "unit": "lux",
+       "fc": 4, "address": 4, "type": "float32", "byte_order": "ABCD",
+       "min": 0, "max": 200000, "display_min": 0, "display_max": 100000}
+    ]
+  },
+  {
+    "name": "Node CO2 (MQ135)",
+    "category": "climate",
+    "channels": [
+      {"key": "co2", "label": "CO2", "unit": "ppm",
+       "fc": 4, "address": 0, "type": "float32", "byte_order": "ABCD",
+       "min": 0, "max": 10000, "display_min": 0, "display_max": 2000,
+       "estimate": true}
+    ]
+  }
+]

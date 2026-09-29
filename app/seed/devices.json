@@ -1,0 +1,18 @@
+{
+  "connections": [
+    {
+      "name": "Bus RS-485 số 1",
+      "type": "rtu",
+      "params": {"port": "${SERIAL_PORT}", "baudrate": 9600, "parity": "N", "stopbits": 1,
+                 "timeout_ms": 500, "retries": 1, "gap_ms": 20}
+    }
+  ],
+  "devices": [
+    {"name": "Node 01 · Tốc độ gió", "zone": "Ngoài trời", "connection": "Bus RS-485 số 1",
+     "unit_id": 1, "template": "Node tốc độ gió", "poll_interval_s": 10},
+    {"name": "Node 02 · Nhiệt ẩm, ánh sáng", "zone": "Khu A", "connection": "Bus RS-485 số 1",
+     "unit_id": 2, "template": "Node nhiệt ẩm, ánh sáng", "poll_interval_s": 10},
+    {"name": "Node 03 · CO2", "zone": "Khu A", "connection": "Bus RS-485 số 1",
+     "unit_id": 3, "template": "Node CO2 (MQ135)", "poll_interval_s": 10}
+  ]
+}

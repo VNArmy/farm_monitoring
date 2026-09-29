@@ -1,0 +1,32 @@
+[Unit]
+Description=Giám sát nhà kính: màn hình HMI (cage + Chromium kiosk trên HDMI)
+Documentation=file:///opt/greenhouse/app/README.md
+After=systemd-user-sessions.service greenhouse-web.service
+Wants=greenhouse-web.service
+Conflicts=getty@tty1.service
+
+[Service]
+Type=simple
+User=greenhouse-hmi
+PAMName=login
+TTYPath=/dev/tty1
+StandardInput=tty
+StandardOutput=journal
+StandardError=journal
+UtmpIdentifier=tty1
+UtmpMode=user
+Environment=XDG_RUNTIME_DIR=/run/user/%U
+# Chờ web app sẵn sàng rồi mới mở trình duyệt, để không hiện trang lỗi của Chromium.
+ExecStartPre=/bin/sh -c 'for i in $(seq 90); do curl -fs -o /dev/null http://127.0.0.1:8081/hmi && exit 0; sleep 1; done; exit 0'
+ExecStart=/usr/bin/cage -d -- @CHROMIUM@ --kiosk --noerrdialogs --disable-infobars --no-first-run \
+  --disable-session-crashed-bubble --disable-features=Translate,TouchpadOverscrollHistoryNavigation \
+  --overscroll-history-navigation=0 --disable-pinch --check-for-update-interval=31536000 \
+  --password-store=basic --ozone-platform=wayland --app=http://127.0.0.1:8081/hmi
+Restart=always
+RestartSec=5
+# Chromium luôn là thứ bị hy sinh trước khi thiếu RAM (spec mục 3).
+MemoryMax=1G
+OOMScoreAdjust=500
+
+[Install]
+WantedBy=graphical.target

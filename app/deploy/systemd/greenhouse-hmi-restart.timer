@@ -1,0 +1,9 @@
+[Unit]
+Description=Khởi động lại màn HMI mỗi đêm lúc 4 giờ
+
+[Timer]
+OnCalendar=*-*-* 04:00:00
+Persistent=false
+
+[Install]
+WantedBy=timers.target
