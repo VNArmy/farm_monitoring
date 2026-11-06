@@ -231,7 +231,7 @@ const expanded = computed(() => !collapsed.value || overlay.value);
         <div v-if="live.lost.value" class="banner info" role="status">
           <Icon name="refresh" :size="20" />
           <div class="body">
-            <span class="strong">{{ kiosk ? 'Mất kết nối tới Pi.' : 'Mất kết nối trực tiếp tới Pi.' }}</span> Đang thử lại; số liệu trên trang
+            <span class="strong">{{ kiosk ? 'Mất kết nối tới Datalogger.' : 'Mất kết nối trực tiếp tới Datalogger.' }}</span> Đang thử lại; số liệu trên trang
             có thể đã cũ.
           </div>
         </div>

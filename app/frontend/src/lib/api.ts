@@ -38,7 +38,7 @@ export async function request<T = unknown>(method: string, url: string, body?: u
       body: body === undefined ? undefined : JSON.stringify(body),
     });
   } catch {
-    throw new ApiError(0, 'network', 'Không kết nối được tới Pi. Kiểm tra mạng rồi thử lại.');
+    throw new ApiError(0, 'network', 'Không kết nối được tới Datalogger. Kiểm tra mạng rồi thử lại.');
   }
   const type = res.headers.get('content-type') || '';
   const data: unknown = type.includes('json') ? await res.json().catch(() => null) : await res.text();

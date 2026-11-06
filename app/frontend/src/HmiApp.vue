@@ -55,7 +55,7 @@ watch(
     <main class="main">
       <div v-if="live.lost.value" class="banner info" role="status">
         <Icon name="refresh" :size="20" />
-        <div class="body"><span class="strong">Mất kết nối tới Pi.</span> Đang thử lại; số liệu trên màn có thể đã cũ.</div>
+        <div class="body"><span class="strong">Mất kết nối tới Datalogger.</span> Đang thử lại; số liệu trên màn có thể đã cũ.</div>
       </div>
       <div v-else-if="live.state.snap && !live.state.snap.collector.online" class="banner danger" role="alert">
         <Icon name="xCircle" :size="20" />

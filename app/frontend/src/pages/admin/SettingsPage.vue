@@ -167,7 +167,7 @@ async function saveHmi(): Promise<void> {
 }
 
 async function reloadHmi(): Promise<void> {
-  if (!(await confirmDialog('Tải lại màn hình HMI', 'Trang trên màn HDMI của Pi sẽ tải lại trong vài giây.', 'Tải lại'))) return;
+  if (!(await confirmDialog('Tải lại màn hình HMI', 'Trang trên màn HDMI của Datalogger sẽ tải lại trong vài giây.', 'Tải lại'))) return;
   busy.reload = true;
   const r = await attempt(() => api.post('/api/admin/hmi/reload'));
   busy.reload = false;
@@ -246,7 +246,7 @@ onBeforeUnmount(() => clearInterval(timer));
               label="Địa chỉ web app"
               input-id="c-url"
               :error="errors.public_url"
-              hint="Hiện trên mã QR của màn HMI; để trống thì dùng địa chỉ LAN của Pi"
+              hint="Hiện trên mã QR của màn HMI; để trống thì dùng địa chỉ LAN của Datalogger"
             >
               <input
                 id="c-url"
@@ -309,7 +309,7 @@ onBeforeUnmount(() => clearInterval(timer));
               ? `Kết nối từ ${fmtWhen(hmi.status.connected_since)}${hmi.status.width ? ` · ${hmi.status.width} × ${hmi.status.height}` : ''}${hmi.status.kiosk ? ' · Chromium kiosk' : ''}`
               : 'Không có trang HMI nào đang mở. Kiểm tra dịch vụ greenhouse-hmi và màn HDMI.'
           }}</span>
-          <span>Địa chỉ trên Pi</span><span class="mono small">{{ hmi.url }}</span>
+          <span>Địa chỉ trên Datalogger</span><span class="mono small">{{ hmi.url }}</span>
           <span>Mã QR mở</span><span class="mono small">{{ hmi.lan_url }}</span>
         </div>
         <div class="split even" style="align-items: start">

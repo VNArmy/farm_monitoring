@@ -364,7 +364,7 @@ Màn HDMI cắm thẳng vào Pi hiển thị trang `/hmi` do `web` phục vụ t
 - Thanh dải đo vẽ theo thang hiển thị của kênh (mục 4.3): vùng ngoài ngưỡng tô màu nhạt, vạch đậm là giá trị hiện tại. Giá trị ngoài thang thì vạch dừng ở mép kèm mũi tên, con số vẫn hiện đúng. VPD dùng thang cố định 0 đến 2,5 kPa.
 - Màu theo tinh thần ISA-101: nền xám trung tính, chỉ dùng màu khi bất thường, để kênh vượt ngưỡng nổi bật khi nhìn từ xa. Trạng thái thẻ theo đúng bảng ở trang tổng quan.
 - Chỉ đọc: không có mục quản trị, không đăng nhập, không xuất CSV; biểu đồ lịch sử chỉ hiện khi admin cho phép và màn có cảm ứng. Thanh điều hướng thu gọn thành rail; ngăn kéo hiện địa chỉ web app kèm mã QR để mở nhanh trên điện thoại.
-- Chạy không cần người trông: tự kết nối lại SSE, báo Mất kết nối tới Pi khi quá 30 giây không có dữ liệu, tự tải lại khi frontend có phiên bản mới hoặc khi admin bấm Tải lại màn hình HMI.
+- Chạy không cần người trông: tự kết nối lại SSE, báo Mất kết nối tới Datalogger khi quá 30 giây không có dữ liệu, tự tải lại khi frontend có phiên bản mới hoặc khi admin bấm Tải lại màn hình HMI.
 - Lúc Pi vừa khởi động: hiện Đang chờ dữ liệu cho tới khi collector ghi lần đầu, không hiện ô trống hay số 0. Giá trị quá 3 chu kỳ đọc không được cập nhật chuyển sang trạng thái Dữ liệu cũ như trang tổng quan, không đứng yên như thể vẫn đang cập nhật.
 
 ### Chỉ số dẫn xuất (ưu tiên thấp)
@@ -503,7 +503,7 @@ Kịch bản nghiệm thu:
 - [ ] Lưu 2 thiết bị cùng unit ID trên một kết nối: bị chặn với mã 409.
 - [ ] Cắt điện rồi cấp lại: màn HMI tự hiện số liệu sau khi Pi khởi động, không cần chuột hay bàn phím.
 - [ ] Từ máy khác trong LAN: cổng 8081 không kết nối được, và /hmi qua Caddy trả 404.
-- [ ] Dừng dịch vụ web 1 phút: HMI báo Mất kết nối tới Pi, rồi tự hồi phục khi web chạy lại, không cần thao tác.
+- [ ] Dừng dịch vụ web 1 phút: HMI báo Mất kết nối tới Datalogger, rồi tự hồi phục khi web chạy lại, không cần thao tác.
 
 ## 12. Giả định và câu hỏi mở
 

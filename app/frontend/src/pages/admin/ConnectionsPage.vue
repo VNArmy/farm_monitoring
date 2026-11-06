@@ -120,7 +120,7 @@ const portInfo = computed(() => {
   const d = draft.value;
   if (!d || d.type !== 'rtu') return '';
   const p = ports.value.find((x) => x.path === d.port);
-  if (!p) return d.port ? 'Cổng này hiện không thấy trên Pi. Kiểm tra adapter USB đã cắm chưa.' : '';
+  if (!p) return d.port ? 'Cổng này hiện không thấy trên Datalogger. Kiểm tra adapter USB đã cắm chưa.' : '';
   const parts = [p.manufacturer, p.product].filter(Boolean);
   if (p.serial_number) parts.push(`số serial ${p.serial_number}`);
   if (p.device && p.device !== p.path) parts.push(`hiện là ${p.device}`);

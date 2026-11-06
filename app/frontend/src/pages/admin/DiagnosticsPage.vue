@@ -152,7 +152,7 @@ onBeforeUnmount(() => {
         <div class="stat">
           <span class="k">Nhiệt độ CPU</span>
           <span class="v tn">{{ diag.system.cpu_temp != null ? `${fmtNum(diag.system.cpu_temp, 1)} °C` : '—' }}</span>
-          <span class="d">{{ diag.system.cpu_temp != null && diag.system.cpu_temp >= 80 ? 'Nóng: Pi có thể tự giảm xung' : 'Đọc từ thermal_zone0' }}</span>
+          <span class="d">{{ diag.system.cpu_temp != null && diag.system.cpu_temp >= 80 ? 'Nóng: Datalogger có thể tự giảm xung' : 'Đọc từ thermal_zone0' }}</span>
         </div>
         <div class="stat">
           <span class="k">Đồng hồ</span>
