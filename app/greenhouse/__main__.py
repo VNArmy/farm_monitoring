@@ -9,6 +9,7 @@ web            Chạy dịch vụ web (web app và cổng HMI).
 dev            Chạy thử trên máy phát triển với bus mô phỏng sim://demo và dữ liệu mẫu.
 sim-tcp        Chạy simulator Modbus TCP (pymodbus server) cho Node 01, 02, 03.
 backup         Backup CSDL ngay bằng VACUUM INTO.
+install-map    Cài file bản đồ nền PMTiles, không cần Internet.
 """
 
 from __future__ import annotations
@@ -18,12 +19,17 @@ import asyncio
 import getpass
 import logging
 import os
+import shutil
+import struct
 import subprocess
 import sys
 from pathlib import Path
 
 from .core import config, db
 from .core.timeutil import now_ms
+
+PMTILES_MAGIC = b"PMTiles\x03"
+PMTILES_HEADER_SIZE = 127
 
 
 def _setup_logging() -> None:
@@ -179,6 +185,34 @@ def cmd_backup(args: argparse.Namespace) -> None:
     print(f"Đã backup {config.backup_dir() / info['file']} ({info['size']:,} byte)".replace(",", "."))
 
 
+def cmd_install_map(args: argparse.Namespace) -> None:
+    """Chép vào file tạm rồi đổi tên, để file sai hoặc lỗi giữa chừng không làm hỏng bản đồ đang dùng."""
+    src = Path(args.file)
+    keep = "; file đang dùng giữ nguyên"
+    try:
+        size = src.stat().st_size
+        with src.open("rb") as f:
+            head = f.read(PMTILES_HEADER_SIZE)
+    except OSError as e:
+        sys.exit(f"Không đọc được {src}: {e}")
+    if len(head) < PMTILES_HEADER_SIZE or not head.startswith(PMTILES_MAGIC):
+        sys.exit(f"{src} không phải file PMTiles phiên bản 3{keep}")
+    # Header ghi vị trí và độ dài khối tile; file chép dở (scp đứt mạng) sẽ ngắn hơn số này.
+    offset, length = struct.unpack_from("<QQ", head, 56)
+    if offset + length > size:
+        sys.exit(f"{src} thiếu dữ liệu, có thể chép chưa xong{keep}")
+    dest = config.basemap_path()
+    tmp = dest.with_name(f"{dest.name}.tmp")
+    try:
+        dest.parent.mkdir(parents=True, exist_ok=True)
+        shutil.copyfile(src, tmp)
+        os.replace(tmp, dest)
+    except OSError as e:
+        tmp.unlink(missing_ok=True)
+        sys.exit(f"Không cài được bản đồ: {e}{keep}")
+    print(f"Đã cài bản đồ {dest} ({size:,} byte); tải lại trang Bản đồ để xem".replace(",", "."))
+
+
 def main() -> None:
     p = argparse.ArgumentParser(prog="greenhouse", description="Giám sát nhà kính")
     sub = p.add_subparsers(dest="cmd", required=True)
@@ -211,6 +245,10 @@ def main() -> None:
     s.set_defaults(func=cmd_sim_tcp)
 
     sub.add_parser("backup", help="backup CSDL ngay").set_defaults(func=cmd_backup)
+
+    s = sub.add_parser("install-map", help="cài file bản đồ nền PMTiles")
+    s.add_argument("file", help="đường dẫn file .pmtiles")
+    s.set_defaults(func=cmd_install_map)
 
     args = p.parse_args()
     args.func(args)

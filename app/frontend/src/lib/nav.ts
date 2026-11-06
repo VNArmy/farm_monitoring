@@ -10,6 +10,7 @@ export interface NavItem {
 export const MAIN_NAV: NavItem[] = [
   { id: 'tong-quan', to: '/', label: 'Tổng quan', icon: 'grid' },
   { id: 'bieu-do', to: '/bieu-do', label: 'Biểu đồ', icon: 'chart' },
+  { id: 'ban-do', to: '/ban-do', label: 'Bản đồ', icon: 'map' },
 ];
 
 export const ADMIN_NAV: NavItem[] = [

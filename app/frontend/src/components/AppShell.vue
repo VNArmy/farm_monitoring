@@ -254,6 +254,7 @@ const expanded = computed(() => !collapsed.value || overlay.value);
       <nav class="tabbar" :class="{ on: !mini, hide: barHidden }" aria-label="Điều hướng">
         <RouterLink class="tab" to="/" :aria-current="cur('tong-quan')"><Icon name="grid" :size="22" />Tổng quan</RouterLink>
         <RouterLink class="tab" to="/bieu-do" :aria-current="cur('bieu-do')"><Icon name="chart" :size="22" />Biểu đồ</RouterLink>
+        <RouterLink class="tab" to="/ban-do" :aria-current="cur('ban-do')"><Icon name="map" :size="22" />Bản đồ</RouterLink>
         <RouterLink class="tab" to="/tai-khoan" :aria-current="cur('tai-khoan')"><Icon name="user" :size="22" />Tài khoản</RouterLink>
         <span class="tab-sep" />
         <button type="button" class="tab shrink" aria-expanded="true" aria-label="Thu nhỏ thanh điều hướng" @click="setMini(true)">
@@ -263,6 +264,7 @@ const expanded = computed(() => !collapsed.value || overlay.value);
       <nav class="tabpill" :class="{ on: mini, hide: barHidden }" aria-label="Điều hướng thu nhỏ">
         <RouterLink to="/" aria-label="Tổng quan" :aria-current="cur('tong-quan')"><Icon name="grid" :size="22" /></RouterLink>
         <RouterLink to="/bieu-do" aria-label="Biểu đồ" :aria-current="cur('bieu-do')"><Icon name="chart" :size="22" /></RouterLink>
+        <RouterLink to="/ban-do" aria-label="Bản đồ" :aria-current="cur('ban-do')"><Icon name="map" :size="22" /></RouterLink>
         <RouterLink to="/tai-khoan" aria-label="Tài khoản" :aria-current="cur('tai-khoan')"><Icon name="user" :size="22" /></RouterLink>
         <span class="sep" />
         <button type="button" aria-expanded="false" aria-label="Mở rộng thanh điều hướng" @click="setMini(false)">

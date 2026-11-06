@@ -107,6 +107,7 @@ Nâng cấp: chép mã mới sang Pi rồi chạy lại `sudo bash deploy/instal
 | `/opt/greenhouse/app` | Mã và `.venv` |
 | `/var/lib/greenhouse/greenhouse.db` | CSDL SQLite (WAL) |
 | `/var/lib/greenhouse/backups` | Backup hằng đêm, giữ 7 bản (đổi ở Cài đặt) |
+| `/var/lib/greenhouse/map/basemap.pmtiles` | File bản đồ của trại, cài bằng `greenhouse install-map`; không nằm trong backup vì tạo lại được |
 | `/etc/greenhouse/greenhouse.env` | Ghi đè cấu hình, ví dụ `GREENHOUSE_BACKUP_DIR=/mnt/greenhouse-backup` |
 
 Nên đặt thư mục backup trên USB hoặc ổ khác: mount vào `/mnt/greenhouse-backup` (unit đã cho phép ghi ở đó), đặt `GREENHOUSE_BACKUP_DIR` trong `/etc/greenhouse/greenhouse.env` rồi `sudo systemctl restart greenhouse-collector greenhouse-web`.
@@ -120,6 +121,28 @@ Vào `https://<địa-chỉ-pi>` trong cùng mạng LAN (từ xa thì qua VPN nh
 3. iPhone/iPad: mở file để cài hồ sơ, rồi Cài đặt → Cài đặt chung → Giới thiệu → Cài đặt tin cậy chứng nhận → bật cho CA của Caddy.
 
 Mã QR trên ngăn kéo của màn HMI mở đúng địa chỉ web app. Địa chỉ lấy từ IP LAN của Pi; đặt địa chỉ cố định ở Quản trị · Cài đặt nếu Pi có tên miền nội bộ.
+
+### Bản đồ trại
+
+Trang Bản đồ cần tọa độ và file bản đồ của trại, hai thứ này chỉ có khi triển khai tại chỗ. Thiếu thì trang báo chưa có bản đồ, các phần khác vẫn chạy bình thường. Chi tiết ở [docs/spec-ban-do.md](../docs/spec-ban-do.md).
+
+1. Đứng tại trại, lấy tọa độ từ app bản đồ trên điện thoại, dán vào ô Tọa độ trại ở Quản trị · Cài đặt.
+2. Mở trang Bản đồ: trang hiện các lệnh dưới với khung 1° × 1° quanh trại đã điền sẵn. Chạy phần đầu trên laptop có Internet, cần [công cụ pmtiles](https://docs.protomaps.com/pmtiles/cli); thay `YYYYMMDD` bằng [bản build mới nhất](https://docs.protomaps.com/basemaps/downloads), các bản chỉ giữ 1 tuần.
+
+```bash
+# trên laptop
+pmtiles extract https://build.protomaps.com/YYYYMMDD.pmtiles basemap.pmtiles \
+  --bbox=MIN_LON,MIN_LAT,MAX_LON,MAX_LAT --maxzoom=15
+scp basemap.pmtiles <user>@<địa-chỉ-pi>:/tmp/
+
+# trên Pi, không cần Internet
+sudo -u greenhouse GREENHOUSE_DATA_DIR=/var/lib/greenhouse \
+  /opt/greenhouse/app/.venv/bin/greenhouse install-map /tmp/basemap.pmtiles
+```
+
+`install-map` từ chối file sai định dạng hoặc chép chưa xong và giữ nguyên file đang dùng; cài xong chỉ cần tải lại trang, không phải khởi động lại dịch vụ. Trại không có mạng nào, kể cả 4G: tạo file trước khi đi, với khung đủ rộng để chắc chắn chứa trại.
+
+Trên máy phát triển, `greenhouse install-map <file>` chép vào `app/data/map/`, thư mục này không commit.
 
 ## Vận hành
 

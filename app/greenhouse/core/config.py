@@ -27,6 +27,10 @@ def backup_dir() -> Path:
     return _env_path("GREENHOUSE_BACKUP_DIR", data_dir() / "backups")
 
 
+def basemap_path() -> Path:
+    return data_dir() / "map" / "basemap.pmtiles"
+
+
 def frontend_dist() -> Path:
     return _env_path("GREENHOUSE_FRONTEND_DIST", APP_DIR / "frontend" / "dist")
 

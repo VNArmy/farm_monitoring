@@ -54,6 +54,9 @@ export const ICONS: Record<string, string> = {
   edit: '<path d="M4 20h4l10.5-10.5a2.83 2.83 0 1 0-4-4l-10.5 10.5v4"/><path d="M13.5 6.5l4 4"/>',
   wifi: '<path d="M12 18h.01"/><path d="M9.17 15.17a4 4 0 0 1 5.66 0"/><path d="M6.34 12.34a8 8 0 0 1 11.31 0"/><path d="M3.52 9.52a12 12 0 0 1 16.97 0"/>',
   terminal: '<path d="M5 7l5 5l-5 5"/><path d="M12 19h7"/>',
+  map: '<path d="M3 7l6-3l6 3l6-3v13l-6 3l-6-3l-6 3v-13"/><path d="M9 4v13"/><path d="M15 7v13"/>',
+  pin: '<path d="M9 11a3 3 0 1 0 6 0a3 3 0 0 0-6 0"/><path d="M17.657 16.657l-4.243 4.243a2 2 0 0 1-2.827 0l-4.244-4.243a8 8 0 1 1 11.314 0z"/>',
+  minus: '<path d="M5 12h14"/>',
 };
 
 export const GRIP = '<circle cx="9" cy="6" r="1.5"/><circle cx="15" cy="6" r="1.5"/><circle cx="9" cy="12" r="1.5"/><circle cx="15" cy="12" r="1.5"/><circle cx="9" cy="18" r="1.5"/><circle cx="15" cy="18" r="1.5"/>';

@@ -30,13 +30,14 @@ from . import collector_client
 from .auth import User, require_admin
 from .live import Hub
 from .routes import admin_connections, admin_devices, admin_system, admin_templates, admin_users, auth, data, hmi
+from .routes import map as map_routes
 from .services.hmi import hmi_config
 
 CSP = (
     "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; "
     "font-src 'self'; connect-src 'self'; frame-ancestors 'none'; base-uri 'none'; form-action 'self'"
 )
-SPA_PATHS = ["/", "/dang-nhap", "/bieu-do", "/tai-khoan", "/quan-tri", "/quan-tri/{rest:path}"]
+SPA_PATHS = ["/", "/dang-nhap", "/bieu-do", "/ban-do", "/tai-khoan", "/quan-tri", "/quan-tri/{rest:path}"]
 HMI_PATHS = ["/hmi", "/hmi/bieu-do"]
 HTTP_CODES = {400: "invalid", 401: "unauthorized", 403: "forbidden", 404: "not_found", 405: "method_not_allowed"}
 FIELD_NAMES = {
@@ -51,6 +52,8 @@ FIELD_NAMES = {
     "timeout_ms": "Timeout",
     "port": "Port",
     "site_name": "Tên site",
+    "site_lat": "Vĩ độ",
+    "site_lng": "Kinh độ",
     "backup_time": "Giờ backup",
     "raw_retention_days": "Số ngày giữ dữ liệu thô",
 }
@@ -180,6 +183,9 @@ def create_app(kind: str = "main") -> FastAPI:
         response.headers.setdefault("Content-Security-Policy", CSP)
         if path.startswith("/assets/") or path.startswith("/fonts/"):
             response.headers["Cache-Control"] = "public, max-age=31536000, immutable"
+        elif path.startswith("/map/"):
+            # Tên file không có mã băm nên không để immutable.
+            response.headers["Cache-Control"] = "public, max-age=604800"
         elif path.startswith("/api/"):
             response.headers.setdefault("Cache-Control", "no-store")
         return response
@@ -207,6 +213,7 @@ def create_app(kind: str = "main") -> FastAPI:
         for r in (
             auth.router,
             data.router,
+            map_routes.router,
             admin_users.router,
             admin_connections.router,
             admin_templates.router,
@@ -237,7 +244,8 @@ def create_app(kind: str = "main") -> FastAPI:
             app.add_api_route(p, lambda: _page("hmi.html"), methods=["GET"], include_in_schema=False)
 
     dist = config.frontend_dist()
-    for sub in ("assets", "fonts"):
+    # Font và sprite của bản đồ chỉ có ở cổng web; màn HMI không có trang Bản đồ.
+    for sub in ("assets", "fonts", "map") if kind == "main" else ("assets", "fonts"):
         d = dist / sub
         if d.is_dir():
             app.mount(f"/{sub}", StaticFiles(directory=d), name=sub)

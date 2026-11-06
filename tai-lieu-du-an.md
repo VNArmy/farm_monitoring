@@ -5,6 +5,9 @@ Bản mới nhất luôn nằm trong các tài liệu dưới đây; file này c
 - Spec web app trên Raspberry Pi: https://claude.ai/artifact/Mty9SnPGivnHb3mFgm84dc
 - Bản thiết kế giao diện (canvas, gồm HMI và trang admin): https://claude.ai/artifact/Eoxoi2rZTAJiznVtCjuRpe
 - Kế hoạch thực hiện (M0 đến M4, khoảng 51 ngày công): https://claude.ai/artifact/1mmRCK8Pwms6VSyf4tZGD7
+- Spec hiển thị vị trí trại trên bản đồ: [docs/spec-ban-do.md](docs/spec-ban-do.md)
+- Plan thực hiện trang Bản đồ: [docs/plan-ban-do.md](docs/plan-ban-do.md)
+- Mockup trang Bản đồ và luồng đặt vị trí trại (mở bằng trình duyệt): [docs/mockup-ban-do.html](docs/mockup-ban-do.html)
 
 ## Quyết định đã chốt
 
@@ -17,3 +20,5 @@ Bản mới nhất luôn nằm trong các tài liệu dưới đây; file này c
 - Tablet và điện thoại vào https://[địa chỉ Pi] qua Caddy, đăng nhập viewer để xem, admin để cấu hình.
 - Thang hiển thị: mặc định theo mẫu thiết bị, ghi đè được cho từng kênh của thiết bị.
 - SQLite chế độ WAL; dữ liệu thô giữ 365 ngày, dữ liệu gộp 5 phút giữ vĩnh viễn.
+- Tọa độ trại nhập tay ở Quản trị · Cài đặt; để ngỏ phần lấy từ GPS nếu có (05/11/2026).
+- Giao diện và hướng dẫn sử dụng gọi máy đặt ở trại là Datalogger, vì sau này có thể không còn là Pi; tài liệu thiết kế và README cài đặt vẫn viết Pi (05/11/2026).

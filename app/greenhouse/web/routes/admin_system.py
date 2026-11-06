@@ -140,6 +140,9 @@ class SettingsIn(BaseModel):
     site_name: str | None = Field(None, min_length=1, max_length=60)
     timezone: str | None = None
     public_url: str | None = Field(None, max_length=200)
+    site_lat: float | None = Field(None, ge=-90, le=90)
+    site_lng: float | None = Field(None, ge=-180, le=180)
+    clear_site_location: bool = False
     raw_retention_days: int | None = Field(None, ge=30, le=3650)
     backup_time: str | None = Field(None, pattern=r"^([01]\d|2[0-3]):[0-5]\d$")
     backup_keep: int | None = Field(None, ge=1, le=60)
@@ -149,6 +152,8 @@ SETTING_LABELS = {
     "site_name": "Tên site",
     "timezone": "Múi giờ",
     "public_url": "Địa chỉ web app",
+    "site_lat": "Vĩ độ trại",
+    "site_lng": "Kinh độ trại",
     "raw_retention_days": "Giữ dữ liệu thô (ngày)",
     "backup_time": "Giờ backup",
     "backup_keep": "Số bản backup giữ lại",
@@ -170,7 +175,12 @@ def get_settings(user: User = Depends(require_admin), conn: sqlite3.Connection =
 def put_settings(
     body: SettingsIn, user: User = Depends(require_admin), conn: sqlite3.Connection = Depends(get_db)
 ) -> dict[str, Any]:
-    new = body.model_dump(exclude_none=True)
+    new = body.model_dump(exclude_none=True, exclude={"clear_site_location"})
+    if ("site_lat" in new) != ("site_lng" in new):
+        raise invalid("Cần đủ cả vĩ độ và kinh độ", "site_lng" if "site_lat" in new else "site_lat")
+    if body.clear_site_location:
+        # exclude_none bỏ qua null nên cần cờ riêng để xóa tọa độ.
+        new.update(site_lat=None, site_lng=None)
     if "timezone" in new and new["timezone"] not in TIMEZONES:
         raise invalid("Múi giờ không hỗ trợ", "timezone")
     if "public_url" in new:
@@ -178,7 +188,8 @@ def put_settings(
         if new["public_url"] and not re.match(r"^https?://[^\s/]+", new["public_url"]):
             raise invalid("Địa chỉ phải bắt đầu bằng https:// hoặc http://", "public_url")
     old = db.get_settings(conn)
-    changes = diff(old, new, SETTING_LABELS)
+    # Trường không gửi lên là không đổi, không phải bị xóa.
+    changes = diff(old, {**old, **new}, SETTING_LABELS)
     with db.tx(conn):
         for k, v in new.items():
             db.set_setting(conn, k, v)

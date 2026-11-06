@@ -15,6 +15,7 @@ const routes: RouteRecordRaw[] = [
   { path: '/dang-nhap', component: () => import('./pages/LoginPage.vue'), meta: { title: 'Đăng nhập', public: true } },
   { path: '/', component: () => import('./pages/OverviewPage.vue'), meta: { title: 'Tổng quan', nav: 'tong-quan' } },
   { path: '/bieu-do', component: () => import('./pages/ChartsPage.vue'), meta: { title: 'Biểu đồ', nav: 'bieu-do' } },
+  { path: '/ban-do', component: () => import('./pages/MapPage.vue'), meta: { title: 'Bản đồ', nav: 'ban-do' } },
   { path: '/tai-khoan', component: () => import('./pages/AccountPage.vue'), meta: { title: 'Tài khoản', nav: 'tai-khoan' } },
   { path: '/quan-tri', redirect: '/quan-tri/ket-noi' },
   {

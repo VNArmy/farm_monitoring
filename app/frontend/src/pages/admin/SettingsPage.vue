@@ -5,14 +5,17 @@ import { computed, onBeforeUnmount, onMounted, reactive, ref } from 'vue';
 import FormField from '../../components/FormField.vue';
 import Icon from '../../components/Icon.vue';
 import { api, download, qs } from '../../lib/api';
-import { reqNum } from '../../lib/admin';
+import { FieldError, reqNum } from '../../lib/admin';
 import { fmtBytes, fmtDateTime, fmtWhen } from '../../lib/format';
+import { fmtLatLng, parseLatLng } from '../../lib/geo';
 import { attempt, confirmDialog, toast, useFormErrors } from '../../lib/ui';
 
 interface Settings {
   site_name: string;
   timezone: string;
   public_url: string;
+  site_lat: number | null;
+  site_lng: number | null;
   raw_retention_days: number;
   backup_time: string;
   backup_keep: number;
@@ -72,7 +75,7 @@ const ACTION_NAMES: Record<string, string> = {
 
 // --- Cài đặt chung --------------------------------------------------------------------------
 const s = ref<Settings | null>(null);
-const form = reactive({ site_name: '', timezone: '', public_url: '', raw_retention_days: '', backup_time: '', backup_keep: '' });
+const form = reactive({ site_name: '', site_location: '', timezone: '', public_url: '', raw_retention_days: '', backup_time: '', backup_keep: '' });
 const busy = reactive({ save: false, backup: false, hmi: false, reload: false, audit: false });
 const { errors, clear, fail } = useFormErrors();
 
@@ -80,6 +83,7 @@ function fill(x: Settings): void {
   s.value = x;
   Object.assign(form, {
     site_name: x.site_name,
+    site_location: x.site_lat == null || x.site_lng == null ? '' : fmtLatLng({ lat: x.site_lat, lng: x.site_lng }),
     timezone: x.timezone,
     public_url: x.public_url ?? '',
     raw_retention_days: String(x.raw_retention_days),
@@ -92,9 +96,13 @@ async function saveSettings(): Promise<void> {
   clear();
   busy.save = true;
   try {
+    const loc = form.site_location.trim();
+    const site = loc ? parseLatLng(loc) : null;
+    if (typeof site === 'string') throw new FieldError('site_location', site);
     fill(
       await api.put<Settings>('/api/admin/settings', {
         site_name: form.site_name.trim(),
+        ...(site ? { site_lat: site.lat, site_lng: site.lng } : { clear_site_location: true }),
         timezone: form.timezone,
         public_url: form.public_url.trim(),
         raw_retention_days: reqNum(form.raw_retention_days, 'raw_retention_days', true),
@@ -236,6 +244,25 @@ onBeforeUnmount(() => clearInterval(timer));
           <div class="form-grid">
             <FormField label="Tên site" input-id="c-site" :error="errors.site_name" span2>
               <input id="c-site" v-model="form.site_name" data-field="site_name" class="input" :class="{ invalid: errors.site_name }" maxlength="60" />
+            </FormField>
+            <FormField
+              label="Tọa độ trại"
+              input-id="c-loc"
+              :error="errors.site_location || errors.site_lat || errors.site_lng"
+              hint="Vĩ độ, kinh độ; dán từ app bản đồ khác. Để trống rồi lưu là xóa tọa độ"
+              span2
+            >
+              <input
+                id="c-loc"
+                v-model="form.site_location"
+                data-field="site_location"
+                class="input mono"
+                :class="{ invalid: errors.site_location || errors.site_lat || errors.site_lng }"
+                placeholder="vĩ độ, kinh độ"
+                autocapitalize="none"
+                spellcheck="false"
+                @input="clear('site_location')"
+              />
             </FormField>
             <FormField label="Múi giờ hiển thị" input-id="c-tz" :error="errors.timezone" hint="Dữ liệu lưu theo UTC; chỉ đổi cách hiển thị">
               <select id="c-tz" v-model="form.timezone" data-field="timezone" class="input">

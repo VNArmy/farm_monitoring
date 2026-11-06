@@ -1,0 +1,448 @@
+<!doctype html>
+<!--
+  Hướng dẫn sử dụng cho người dùng cuối. Bản PDF ở docs/huong-dan-su-dung.pdf được in từ file này bằng Chrome:
+    "C:\Program Files\Google\Chrome\Application\chrome.exe" --headless --no-pdf-header-footer ^
+      --print-to-pdf=docs\huong-dan-su-dung.pdf docs\huong-dan-su-dung\index.html
+  Ảnh trong img/ chụp từ `greenhouse dev` (tài khoản vanhanh, khung 390 × 844), số liệu mẫu.
+-->
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<title>Hướng dẫn sử dụng · Giám sát nhà kính</title>
+<style>
+@font-face{font-family:'Be Vietnam Pro';font-weight:400;src:url(../../app/frontend/public/fonts/be-vietnam-pro-vietnamese-400-normal.woff2) format('woff2');unicode-range:U+0102-0103,U+0110-0111,U+0128-0129,U+0168-0169,U+01A0-01A1,U+01AF-01B0,U+0300-0301,U+0303-0304,U+0308-0309,U+0323,U+0329,U+1EA0-1EF9,U+20AB}
+@font-face{font-family:'Be Vietnam Pro';font-weight:400;src:url(../../app/frontend/public/fonts/be-vietnam-pro-latin-ext-400-normal.woff2) format('woff2');unicode-range:U+0100-02BA,U+02BD-02C5,U+02C7-02CC,U+02CE-02D7,U+02DD-02FF,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20C0,U+2113,U+2C60-2C7F,U+A720-A7FF}
+@font-face{font-family:'Be Vietnam Pro';font-weight:400;src:url(../../app/frontend/public/fonts/be-vietnam-pro-latin-400-normal.woff2) format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
+@font-face{font-family:'Be Vietnam Pro';font-weight:600;src:url(../../app/frontend/public/fonts/be-vietnam-pro-vietnamese-600-normal.woff2) format('woff2');unicode-range:U+0102-0103,U+0110-0111,U+0128-0129,U+0168-0169,U+01A0-01A1,U+01AF-01B0,U+0300-0301,U+0303-0304,U+0308-0309,U+0323,U+0329,U+1EA0-1EF9,U+20AB}
+@font-face{font-family:'Be Vietnam Pro';font-weight:600;src:url(../../app/frontend/public/fonts/be-vietnam-pro-latin-ext-600-normal.woff2) format('woff2');unicode-range:U+0100-02BA,U+02BD-02C5,U+02C7-02CC,U+02CE-02D7,U+02DD-02FF,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20C0,U+2113,U+2C60-2C7F,U+A720-A7FF}
+@font-face{font-family:'Be Vietnam Pro';font-weight:600;src:url(../../app/frontend/public/fonts/be-vietnam-pro-latin-600-normal.woff2) format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
+@font-face{font-family:'Be Vietnam Pro';font-weight:700;src:url(../../app/frontend/public/fonts/be-vietnam-pro-vietnamese-700-normal.woff2) format('woff2');unicode-range:U+0102-0103,U+0110-0111,U+0128-0129,U+0168-0169,U+01A0-01A1,U+01AF-01B0,U+0300-0301,U+0303-0304,U+0308-0309,U+0323,U+0329,U+1EA0-1EF9,U+20AB}
+@font-face{font-family:'Be Vietnam Pro';font-weight:700;src:url(../../app/frontend/public/fonts/be-vietnam-pro-latin-ext-700-normal.woff2) format('woff2');unicode-range:U+0100-02BA,U+02BD-02C5,U+02C7-02CC,U+02CE-02D7,U+02DD-02FF,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20C0,U+2113,U+2C60-2C7F,U+A720-A7FF}
+@font-face{font-family:'Be Vietnam Pro';font-weight:700;src:url(../../app/frontend/public/fonts/be-vietnam-pro-latin-700-normal.woff2) format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
+@font-face{font-family:'JetBrains Mono';font-weight:400;src:url(../../app/frontend/public/fonts/jetbrains-mono-latin-400-normal.woff2) format('woff2')}
+
+@page {
+  size: A4;
+  margin: 15mm 17mm 17mm;
+  @bottom-left { content: "Giám sát nhà kính · Hướng dẫn sử dụng"; font: 8pt 'Be Vietnam Pro', sans-serif; color: #6B6E67; }
+  @bottom-right { content: "Trang " counter(page) " / " counter(pages); font: 8pt 'Be Vietnam Pro', sans-serif; color: #6B6E67; }
+}
+@page :first { @bottom-left { content: none; } }
+
+:root {
+  --text: #1C1E1B; --text-2: #3F423D; --muted: #6B6E67; --border: #E2E0D8; --divider: #EFEDE7;
+  --bg: #F4F3EE; --surface-2: #F9F8F5; --primary: #1F5E4B; --primary-soft: #E3EFE9;
+  --warn-bg: #FDEBD3; --warn-border: #E9B77A; --warn-text: #8A4300;
+  --danger-bg: #FBE3E1; --danger-border: #E8A39C; --danger-text: #A1241A;
+  --info-bg: #E6ECF3; --info-border: #C9D4E0; --info-text: #3B5068;
+  --off-text: #3F3F3B; --off-dash: #B4B2A9;
+}
+* { box-sizing: border-box; }
+html { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+body { margin: 0; font-family: 'Be Vietnam Pro', 'Segoe UI', sans-serif; font-size: 9.6pt; line-height: 1.55; color: var(--text); }
+h1, h2, h3 { line-height: 1.25; margin: 0; }
+h2 { font-size: 15pt; font-weight: 700; color: var(--primary); margin: 0 0 3mm; display: flex; align-items: center; gap: 3mm; break-after: avoid; }
+h2 .n { display: inline-flex; align-items: center; justify-content: center; width: 8mm; height: 8mm; border-radius: 2mm; background: var(--primary); color: #fff; font-size: 11pt; flex: none; }
+h3 { font-size: 10.8pt; font-weight: 600; margin: 4.5mm 0 1.5mm; break-after: avoid; }
+p { margin: 0 0 2.2mm; }
+ul, ol { margin: 0 0 2.5mm; padding-left: 5mm; }
+li { margin-bottom: 1.2mm; }
+b, strong { font-weight: 600; }
+code, .addr { font-family: 'JetBrains Mono', Consolas, monospace; font-size: 8.8pt; background: var(--bg); padding: 0.2mm 1.2mm; border-radius: 1mm; white-space: nowrap; }
+.ui { font-weight: 600; color: var(--primary); }
+.muted { color: var(--muted); }
+.small { font-size: 8.6pt; }
+section { margin-bottom: 7mm; }
+.page-break { break-before: page; }
+
+/* Trang đầu */
+.cover { display: flex; align-items: center; gap: 5mm; padding-bottom: 5mm; border-bottom: 1px solid var(--border); margin-bottom: 6mm; }
+.logo { width: 17mm; height: 17mm; border-radius: 4mm; background: var(--primary); display: flex; align-items: center; justify-content: center; flex: none; }
+.cover h1 { font-size: 23pt; font-weight: 700; }
+.cover .sub { font-size: 11.5pt; color: var(--text-2); margin-top: 1mm; }
+.cover .meta { font-size: 8.6pt; color: var(--muted); margin-top: 1.5mm; }
+
+.fill { border: 1.5px solid var(--primary); border-radius: 3mm; padding: 4mm 5mm 3mm; margin-bottom: 6mm; background: #FBFDFC; }
+.fill .t { font-weight: 600; color: var(--primary); margin-bottom: 1mm; }
+.fill .row { display: flex; align-items: flex-end; gap: 2mm; margin-top: 4.5mm; }
+.fill .row .k { flex: none; width: 52mm; color: var(--text-2); }
+.fill .row .line { flex: 1; border-bottom: 1px dotted #8A8D86; height: 5mm; font-family: 'JetBrains Mono', Consolas, monospace; font-size: 9pt; color: var(--muted); }
+
+/* Bảng */
+table { width: 100%; border-collapse: collapse; margin: 1mm 0 3mm; font-size: 9pt; break-inside: auto; }
+th, td { text-align: left; vertical-align: top; padding: 1.7mm 2.5mm; border-bottom: 1px solid var(--divider); }
+thead th { font-weight: 600; color: var(--text-2); background: var(--surface-2); border-bottom: 1px solid var(--border); }
+tr { break-inside: avoid; }
+table.ways td:first-child, table.ways th:first-child { width: 22mm; color: var(--muted); }
+
+/* Văn bản cạnh ảnh chụp màn hình */
+.split { display: grid; grid-template-columns: 1fr 47mm; gap: 7mm; align-items: start; break-inside: avoid; }
+figure { margin: 0; break-inside: avoid; }
+figure img { display: block; width: 100%; border-radius: 3.5mm; border: 1px solid var(--border); box-shadow: 0 1.5mm 4mm rgba(28, 30, 27, 0.08); }
+/* Cắt phần trống ở cuối ảnh chụp */
+figure.cut-login img { aspect-ratio: 390 / 640; object-fit: cover; object-position: top; }
+figure.cut-account img { aspect-ratio: 390 / 560; object-fit: cover; object-position: top; }
+figcaption { font-size: 8pt; color: var(--muted); margin-top: 1.8mm; text-align: center; }
+
+/* Các bước */
+ol.steps { list-style: none; padding: 0; counter-reset: s; }
+ol.steps > li { counter-increment: s; position: relative; padding-left: 9mm; margin-bottom: 2.6mm; break-inside: avoid; }
+ol.steps > li::before { content: counter(s); position: absolute; left: 0; top: -0.2mm; width: 6mm; height: 6mm; border-radius: 50%; background: var(--primary-soft); color: var(--primary); font-weight: 700; font-size: 9pt; display: flex; align-items: center; justify-content: center; }
+
+.note { border-radius: 2.5mm; padding: 3mm 4mm; margin: 2mm 0 3mm; background: var(--surface-2); border: 1px solid var(--border); break-inside: avoid; }
+.note.green { background: var(--primary-soft); border-color: #C5DDD1; }
+.note.warn { background: #FDF3E4; border-color: var(--warn-border); }
+.note p:last-child, .note ul:last-child { margin-bottom: 0; }
+
+/* Thẻ thu nhỏ, cùng màu với web app */
+.states td:first-child { width: 47mm; }
+.mc { border-radius: 2.5mm; border: 1px solid var(--border); background: #fff; padding: 1.5mm 2.6mm; font-size: 8pt; line-height: 1.35; }
+.mc .h { display: flex; justify-content: space-between; color: var(--text-2); font-weight: 500; }
+.mc .h span:last-child { color: var(--muted); }
+.mc .v { font-size: 13pt; font-weight: 700; margin: 0.5mm 0; }
+.mc .v small { font-size: 8pt; font-weight: 400; margin-left: 0.8mm; }
+.mc .f { color: var(--muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.mc.warn { border: 1.5px solid var(--warn-border); }
+.mc.warn .f { color: var(--warn-text); font-weight: 600; }
+.mc.fault { border: 1.5px solid var(--danger-border); }
+.mc.fault .v, .mc.fault .f { color: var(--danger-text); }
+.mc.off { background: var(--surface-2); border: 1px dashed var(--off-dash); }
+.mc.off .v { color: var(--muted); }
+.mc.off .f { color: var(--off-text); }
+.mc.stale { border-color: var(--info-border); }
+.mc.stale .v { color: var(--muted); }
+.mc.stale .f { color: var(--info-text); }
+.mc .wait { font-size: 9pt; color: var(--muted); margin: 1.6mm 0 1.2mm; }
+
+.banner { display: inline-block; border-radius: 1.8mm; padding: 0.8mm 2.4mm; font-size: 8.4pt; font-weight: 500; }
+.banner.info { background: var(--info-bg); color: var(--info-text); }
+.banner.danger { background: var(--danger-bg); color: var(--danger-text); }
+.banner.warn { background: var(--warn-bg); color: var(--warn-text); }
+
+.two { display: grid; grid-template-columns: 1fr 1fr; gap: 6mm; }
+.two > div { break-inside: avoid; }
+</style>
+</head>
+<body>
+
+<div class="cover">
+  <div class="logo">
+    <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11l9-7l9 7"/><path d="M5 10v10h14v-10"/><path d="M12 20v-5"/><path d="M12 15c0-2 1.5-3.5 3.5-3.5c0 2-1.5 3.5-3.5 3.5z"/></svg>
+  </div>
+  <div>
+    <h1>Hướng dẫn sử dụng</h1>
+    <div class="sub">Giám sát nhà kính: xem số liệu trên điện thoại, ở trại và từ xa</div>
+    <div class="meta">Dành cho người xem và quản trị viên · Bản tháng 11/2026 · Ảnh chụp màn hình dùng số liệu mẫu</div>
+  </div>
+</div>
+
+<div class="fill">
+  <div class="t">Thông tin của trại (quản trị viên điền trước khi đưa tài liệu)</div>
+  <div class="row"><span class="k">Địa chỉ khi ở trại</span><span class="line">https://</span></div>
+  <div class="row"><span class="k">Địa chỉ từ xa (Tailscale)</span><span class="line">https://</span></div>
+  <div class="row"><span class="k">Tên đăng nhập của bạn</span><span class="line"></span></div>
+  <div class="row"><span class="k">Người hỗ trợ, số điện thoại</span><span class="line"></span></div>
+</div>
+
+<section>
+  <h2>Hệ thống làm gì</h2>
+  <p>Các cảm biến trong nhà kính (nhiệt độ, độ ẩm, ánh sáng, CO2, tốc độ gió...) nối vào một bộ ghi dữ liệu đặt ở trại, gọi là <b>Datalogger</b>. Datalogger đọc số liệu liên tục, lưu lại và hiện lên màn hình đặt ở trại. Bạn cũng xem được trên điện thoại, máy tính bảng hoặc máy tính bằng trình duyệt web, không cần cài ứng dụng riêng của trại.</p>
+
+  <h3>Có hai cách vào</h3>
+  <table class="ways">
+    <thead><tr><th></th><th>Khi đang ở trại</th><th>Khi ở bất cứ đâu có Internet</th></tr></thead>
+    <tbody>
+      <tr><td>Mạng</td><td>Wi-Fi của trại</td><td>4G hoặc Wi-Fi bất kỳ</td></tr>
+      <tr><td>Cần cài</td><td>Không cần. Lần đầu, nhờ quản trị viên cài chứng chỉ của trại lên máy.</td><td>Ứng dụng <b>Tailscale</b> (miễn phí), cài một lần</td></tr>
+      <tr><td>Địa chỉ</td><td>Địa chỉ khi ở trại, hoặc quét mã QR trên màn hình ở trại</td><td>Địa chỉ từ xa, kết thúc bằng <code>.ts.net</code></td></tr>
+      <tr><td>Xem mục</td><td>1</td><td>2</td></tr>
+    </tbody>
+  </table>
+  <p>Hai địa chỉ mở cùng một trang và cùng số liệu. Đã cài Tailscale thì dùng địa chỉ từ xa ở mọi nơi được, kể cả khi đang ở trại.</p>
+  <div class="note green">
+    <p><b>Vì sao phải cài Tailscale?</b> Trang giám sát không mở công khai ra Internet. Chỉ những máy đã cài Tailscale và được quản trị viên mời mới tìm thấy trang này. Người lạ không thể dò mật khẩu hay can thiệp vào hệ thống.</p>
+  </div>
+</section>
+
+<section>
+  <h2><span class="n">1</span>Vào khi đang ở trại</h2>
+  <ol class="steps">
+    <li>Nối điện thoại vào <b>Wi-Fi của trại</b>.</li>
+    <li>Quét mã QR trên màn hình theo dõi ở trại (nếu màn hình có ngăn kéo mã QR), hoặc mở trình duyệt (Chrome, Safari) và gõ <b>địa chỉ khi ở trại</b> ghi ở trang đầu.</li>
+    <li>Nếu trình duyệt báo <i>“Kết nối của bạn không phải là kết nối riêng tư”</i> hoặc chứng chỉ không đáng tin cậy, đừng bấm bỏ qua cảnh báo. Nhờ quản trị viên cài chứng chỉ của trại lên máy (mục 9.4). Mỗi máy chỉ cài một lần.</li>
+  </ol>
+</section>
+
+<section>
+  <h2><span class="n">2</span>Vào từ xa qua Tailscale</h2>
+  <p>Tailscale là ứng dụng miễn phí, tạo một đường kết nối riêng đã mã hóa giữa điện thoại của bạn và Datalogger ở trại. Cài và đăng nhập một lần, sau đó chỉ cần để ứng dụng bật.</p>
+  <ol class="steps">
+    <li><b>Cài ứng dụng.</b> Android: mở <b>CH Play</b>, tìm “Tailscale”. iPhone, iPad: mở <b>App Store</b>, tìm “Tailscale”. Máy tính Windows, macOS: tải ở <code>tailscale.com/download</code>.</li>
+    <li><b>Nhận lời mời.</b> Quản trị viên gửi cho bạn một email hoặc một đường link mời. Mở lời mời, đăng nhập bằng tài khoản Google, Apple hoặc Microsoft của bạn rồi bấm chấp nhận (<i>Accept</i>). Chưa có tài khoản Tailscale thì bước này tự tạo.</li>
+    <li><b>Đăng nhập ứng dụng.</b> Mở Tailscale trên điện thoại, bấm đăng nhập (<i>Log in</i>) và chọn <b>đúng tài khoản ở bước 2</b>. Khi điện thoại hỏi có cho thêm cấu hình VPN không, chọn <b>Cho phép</b> (<i>Allow</i>).</li>
+    <li><b>Bật kết nối.</b> Gạt công tắc trong ứng dụng sang trạng thái đã kết nối (<i>Connected</i>). Datalogger của trại hiện trong danh sách thiết bị.</li>
+    <li><b>Mở trang giám sát.</b> Mở trình duyệt, gõ <b>đầy đủ</b> địa chỉ từ xa ghi ở trang đầu, có cả phần đuôi <code>.ts.net</code>. Gõ thiếu phần đuôi thì trang không mở được.</li>
+  </ol>
+  <div class="note">
+    <ul>
+      <li>Tailscale chỉ dẫn đường tới Datalogger. Zalo, Facebook và các trang web khác vẫn chạy như bình thường, nên có thể để Tailscale bật luôn.</li>
+      <li>Khi Internet hoặc điện ở trại bị mất, địa chỉ từ xa không vào được. Lúc đó, nếu đang ở trại, dùng địa chỉ khi ở trại.</li>
+    </ul>
+  </div>
+
+  <h3>Tạo lối tắt trên màn hình chính</h3>
+  <p>Để lần sau mở trang chỉ bằng một chạm:</p>
+  <ul>
+    <li><b>Android (Chrome):</b> mở trang giám sát, bấm <span class="ui">⋮</span> ở góc trên bên phải → <span class="ui">Thêm vào màn hình chính</span>.</li>
+    <li><b>iPhone, iPad (Safari):</b> mở trang giám sát, bấm nút Chia sẻ (ô vuông có mũi tên lên) → <span class="ui">Thêm vào MH chính</span>.</li>
+  </ul>
+</section>
+
+<section>
+  <h2><span class="n">3</span>Đăng nhập</h2>
+  <div class="split">
+    <div>
+      <ol class="steps">
+        <li>Gõ <span class="ui">Tên đăng nhập</span> và <span class="ui">Mật khẩu</span> quản trị viên đã cấp. Bấm hình con mắt để xem lại mật khẩu đang gõ.</li>
+        <li>Bấm <span class="ui">Đăng nhập</span>.</li>
+        <li>Lần đầu, bạn đang dùng <b>mật khẩu tạm</b>. Trang tự chuyển sang mục Tài khoản để bạn đặt mật khẩu mới (tối thiểu 10 ký tự) trước khi xem số liệu.</li>
+      </ol>
+      <h3>Cần biết</h3>
+      <ul>
+        <li>Trang nhớ đăng nhập. Nếu 7 ngày liền không mở thì phải đăng nhập lại.</li>
+        <li>Mỗi địa chỉ (ở trại, từ xa) đăng nhập riêng một lần.</li>
+        <li>Nhập sai 5 lần trong 10 phút thì bị <b>tạm khóa đăng nhập 10 phút</b>.</li>
+        <li>Gõ mật khẩu bằng bộ gõ tiếng Việt (Telex, VNI) có thể làm chữ bị đổi, ví dụ “aa” thành “â”. Nên tắt bộ gõ tiếng Việt khi gõ mật khẩu.</li>
+        <li>Quên mật khẩu: nhờ quản trị viên đặt lại.</li>
+      </ul>
+    </div>
+    <figure class="cut-login"><img src="img/dang-nhap.png" alt="Trang Đăng nhập"><figcaption>Trang Đăng nhập</figcaption></figure>
+  </div>
+</section>
+
+<section>
+  <h2><span class="n">4</span>Màn hình Tổng quan</h2>
+  <div class="split">
+    <div>
+      <p>Sau khi đăng nhập, bạn thấy trang <b>Tổng quan</b> với giá trị mới nhất của mọi cảm biến, xếp theo khu vực (ví dụ Khu A, Ngoài trời).</p>
+      <ul>
+        <li><b>Chấm xanh “Trực tiếp”</b> dưới tiêu đề: số liệu đang tự cập nhật, không cần tải lại trang. Giờ bên cạnh là lần cập nhật gần nhất.</li>
+        <li><b>Mỗi thẻ</b> gồm tên số đo và giờ đọc, giá trị kèm đơn vị, một đường nhỏ cho thấy diễn biến gần đây. Dòng cuối thẻ ghi ngưỡng cho phép hoặc tình trạng của thẻ.</li>
+        <li><b>Bấm vào một thẻ</b> để mở biểu đồ 24 giờ của số đo đó.</li>
+        <li><b>Cuối trang</b> là danh sách thiết bị và số thiết bị đang trực tuyến.</li>
+        <li><b>Thanh dưới cùng</b> có các mục Tổng quan, Biểu đồ, Bản đồ, Tài khoản. Bấm <span class="ui">Thu nhỏ</span> để thanh gọn lại khi cần thêm chỗ xem.</li>
+      </ul>
+      <div class="note small">Thẻ ở ảnh bên cạnh: “CO2” có viền đỏ và dấu “—” vì cảm biến báo lỗi (xem bảng “Đọc tình trạng của thẻ” ngay dưới). Các thẻ khác đang bình thường.</div>
+    </div>
+    <figure><img src="img/tong-quan.png" alt="Trang Tổng quan"><figcaption>Trang Tổng quan trên điện thoại</figcaption></figure>
+  </div>
+</section>
+
+<section>
+  <h3 style="margin-top:0">Đọc tình trạng của thẻ</h3>
+  <p>Trên điện thoại, mỗi thẻ báo tình trạng bằng <b>màu viền</b> và <b>dòng chữ cuối thẻ</b>. Trên máy tính bảng và máy tính, thẻ rộng hơn nên có thêm nhãn chữ như “Vượt ngưỡng”, “Lỗi cảm biến”, “Mất kết nối”.</p>
+  <table class="states">
+    <thead><tr><th>Thẻ trông thế nào</th><th>Nghĩa là</th><th>Bạn nên</th></tr></thead>
+    <tbody>
+      <tr>
+        <td><div class="mc"><div class="h"><span>Nhiệt độ</span><span>08:52</span></div><div class="v">25,3<small>°C</small></div><div class="f">Ngưỡng 18–32 °C</div></div></td>
+        <td><b>Bình thường.</b> Dòng cuối ghi khoảng ngưỡng cho phép, hoặc “Chưa đặt ngưỡng”.</td>
+        <td>Không cần làm gì.</td>
+      </tr>
+      <tr>
+        <td><div class="mc warn"><div class="h"><span>Nhiệt độ</span><span>13:40</span></div><div class="v">33,8<small>°C</small></div><div class="f">Trên ngưỡng 32 °C</div></div></td>
+        <td><b>Vượt ngưỡng.</b> Giá trị cao hơn hoặc thấp hơn khoảng cho phép. Đầu trang còn có thanh cam “… kênh vượt ngưỡng”.</td>
+        <td>Kiểm tra nhà kính. Bấm <span class="ui">Xem diễn biến</span> trên thanh cam để xem biểu đồ.</td>
+      </tr>
+      <tr>
+        <td><div class="mc fault"><div class="h"><span>CO2</span><span>08:52</span></div><div class="v">—<small>ppm</small></div><div class="f">Node 03 báo NaN</div></div></td>
+        <td><b>Lỗi cảm biến</b> hoặc <b>ngoài phạm vi đo.</b> Thiết bị vẫn trả lời nhưng đầu đo có vấn đề hoặc báo con số vô lý.</td>
+        <td>Báo quản trị viên.</td>
+      </tr>
+      <tr>
+        <td><div class="mc off"><div class="h"><span>Tốc độ gió</span><span></span></div><div class="v">—<small>m/s</small></div><div class="f">Node 01 không phản hồi</div></div></td>
+        <td><b>Mất kết nối</b> với thiết bị, thường do mất điện, đứt dây hoặc thiết bị hỏng.</td>
+        <td>Báo quản trị viên.</td>
+      </tr>
+      <tr>
+        <td><div class="mc stale"><div class="h"><span>Độ ẩm</span><span>07:15</span></div><div class="v">82,0<small>%RH</small></div><div class="f">Lần cuối 07:15</div></div></td>
+        <td><b>Dữ liệu cũ.</b> Đã lâu chưa có số mới, số đang hiện là lần đọc cuối.</td>
+        <td>Chờ vài phút. Kéo dài thì báo quản trị viên.</td>
+      </tr>
+      <tr>
+        <td><div class="mc off"><div class="h"><span>Ánh sáng</span><span></span></div><div class="v">—<small>lux</small></div><div class="f">Thiết bị hoặc kết nối đang tắt</div></div></td>
+        <td><b>Đang tắt.</b> Quản trị viên đã tắt thiết bị này.</td>
+        <td>Bình thường nếu quản trị viên chủ động tắt.</td>
+      </tr>
+      <tr>
+        <td><div class="mc off"><div class="h"><span>Nhiệt độ</span><span></span></div><div class="wait">Đang chờ dữ liệu</div></div></td>
+        <td><b>Đang chờ.</b> Datalogger vừa khởi động lại hoặc thiết bị mới được thêm.</td>
+        <td>Chờ vài phút.</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h3>Thanh thông báo ở đầu trang</h3>
+  <table>
+    <thead><tr><th style="width:62mm">Thông báo</th><th>Nghĩa là, và bạn nên</th></tr></thead>
+    <tbody>
+      <tr><td><span class="banner info">Mất kết nối trực tiếp tới Datalogger. Đang thử lại…</span></td><td>Điện thoại không nối được tới Datalogger, số trên trang có thể đã cũ. Kiểm tra mạng điện thoại và xem Tailscale còn bật không. Trang tự nối lại khi có mạng.</td></tr>
+      <tr><td><span class="banner danger">Collector đang dừng.</span></td><td>Phần đọc cảm biến trên Datalogger đã ngừng, không có số liệu mới. Báo quản trị viên.</td></tr>
+      <tr><td><span class="banner warn">Đồng hồ hệ thống chưa đồng bộ…</span></td><td>Đồng hồ của Datalogger chưa lấy được giờ chuẩn, giờ trên số liệu có thể sai. Báo quản trị viên.</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<section>
+  <h2><span class="n">5</span>Xem biểu đồ</h2>
+  <div class="split">
+    <div>
+      <p>Mở mục <span class="ui">Biểu đồ</span> ở thanh dưới cùng, hoặc bấm vào một thẻ ở Tổng quan.</p>
+      <ol class="steps">
+        <li><b>Chọn khoảng thời gian:</b> <span class="ui">1 giờ</span>, <span class="ui">24 giờ</span>, <span class="ui">7 ngày</span>, <span class="ui">30 ngày</span>. Muốn xem một khoảng khác, chọn <span class="ui">Tùy chọn</span>, nhập ngày giờ <i>Từ</i> và <i>Đến</i> rồi bấm <span class="ui">Áp dụng</span>.</li>
+        <li><b>Chọn số đo:</b> bấm <span class="ui">+ Thêm kênh</span> để vẽ chung tối đa 6 số đo, ví dụ nhiệt độ và độ ẩm để so sánh. Một biểu đồ có tối đa 2 loại đơn vị; số đo không thêm được sẽ có ghi chú lý do trong danh sách. Bấm <span class="ui">×</span> trên nhãn để bỏ một số đo.</li>
+      </ol>
+      <h3>Đọc biểu đồ</h3>
+      <ul>
+        <li><b>Đường liền:</b> giá trị theo thời gian.</li>
+        <li><b>Dải màu nhạt:</b> thấp nhất đến cao nhất trong từng điểm.</li>
+        <li><b>Đường nét đứt:</b> ngưỡng cao và ngưỡng thấp.</li>
+        <li><b>Dòng ngay dưới khoảng thời gian:</b> mỗi điểm là trung bình bao lâu, ví dụ “Mỗi điểm là trung bình 1 phút”. Khoảng xem càng dài thì mỗi điểm gộp càng nhiều.</li>
+        <li><b>Dòng dưới biểu đồ:</b> giá trị thấp nhất, trung bình, cao nhất trong cả khoảng.</li>
+        <li>Đoạn trống trên đường là lúc không có số liệu, ví dụ mất điện.</li>
+      </ul>
+    </div>
+    <figure><img src="img/bieu-do.png" alt="Trang Biểu đồ"><figcaption>Biểu đồ nhiệt độ 24 giờ</figcaption></figure>
+  </div>
+</section>
+
+<section>
+  <h2><span class="n">6</span>Xem vị trí trại trên bản đồ</h2>
+  <div class="split">
+    <div>
+      <p>Mở mục <span class="ui">Bản đồ</span> ở thanh dưới cùng. Trang hiện vị trí của trại và vùng xung quanh.</p>
+      <ul>
+        <li><b>Ghim xanh:</b> vị trí của trại, kèm tên trại.</li>
+        <li><b>Kéo bản đồ</b> để xem xung quanh, chụm hoặc mở hai ngón để thu nhỏ, phóng to. Bấm <span class="ui">Về trại</span> để quay lại chỗ ghim.</li>
+        <li><b>Dòng dưới bản đồ:</b> tên và tọa độ của trại. Bấm nút sao chép rồi dán vào app bản đồ khác, ví dụ khi cần chỉ đường tới trại.</li>
+      </ul>
+      <p>Bản đồ nằm sẵn trên Datalogger, nên khi đang ở trại vẫn xem được cả lúc mất Internet. Bản đồ chỉ có vùng quanh trại và không tìm được địa chỉ.</p>
+      <div class="note small">Nếu trang báo <i>“Bản đồ trại sẽ có sau khi lắp đặt tại trại”</i>, nghĩa là quản trị viên chưa nhập tọa độ hoặc chưa cài bản đồ. Số liệu và biểu đồ vẫn dùng bình thường.</div>
+    </div>
+    <figure><img src="img/ban-do.png" alt="Trang Bản đồ"><figcaption>Trang Bản đồ trên điện thoại</figcaption></figure>
+  </div>
+</section>
+
+<section>
+  <h2><span class="n">7</span>Tải số liệu về máy (Xuất CSV)</h2>
+  <div class="split">
+    <div>
+      <p>Số liệu tải về là file CSV, mở bằng Excel hoặc Google Sheets để lập bảng, tính toán hay lưu trữ.</p>
+      <ol class="steps">
+        <li>Trên trang Biểu đồ, chọn các số đo và khoảng thời gian cần lấy.</li>
+        <li>Bấm <span class="ui">Xuất CSV</span>.</li>
+        <li>Chọn <b>độ phân giải</b>. Số dòng của từng lựa chọn hiện ngay bên cạnh.
+          <ul>
+            <li><span class="ui">Dữ liệu thô</span>: mỗi lần đọc cảm biến là một dòng. Đầy đủ nhất nhưng file lớn.</li>
+            <li><span class="ui">5 phút</span>, <span class="ui">1 giờ</span>, <span class="ui">1 ngày</span>: giá trị trung bình theo từng mốc, mỗi số đo một cột. Dễ dùng hơn cho báo cáo.</li>
+          </ul>
+        </li>
+        <li>Bấm <span class="ui">Tải xuống</span>. File lưu vào thư mục Tải xuống của máy.</li>
+      </ol>
+      <div class="note small">
+        <p>File giữ đúng chữ tiếng Việt khi mở bằng Excel. Thời gian ghi theo giờ của trại (giờ Việt Nam).</p>
+        <p>Theo mặc định, dữ liệu thô được giữ 365 ngày; dữ liệu trung bình 5 phút được giữ lâu dài. Muốn lấy số liệu cũ hơn 1 năm, chọn 5 phút trở lên.</p>
+      </div>
+    </div>
+    <figure><img src="img/xuat-csv.png" alt="Hộp thoại Xuất CSV"><figcaption>Hộp thoại Xuất CSV</figcaption></figure>
+  </div>
+</section>
+
+<section>
+  <h2><span class="n">8</span>Tài khoản và mật khẩu</h2>
+  <div class="split">
+    <div>
+      <p>Mở mục <span class="ui">Tài khoản</span> ở thanh dưới cùng.</p>
+      <h3 style="margin-top:2mm">Đổi mật khẩu</h3>
+      <ol class="steps">
+        <li>Nhập <span class="ui">Mật khẩu hiện tại</span>.</li>
+        <li>Nhập <span class="ui">Mật khẩu mới</span> (tối thiểu 10 ký tự) hai lần.</li>
+        <li>Bấm <span class="ui">Đổi mật khẩu</span>.</li>
+      </ol>
+      <p>Nên chọn một câu dễ nhớ nhưng khó đoán, ví dụ ghép 3, 4 từ không liên quan. Không dùng chung mật khẩu với email hay Facebook.</p>
+      <h3>Đăng xuất</h3>
+      <p>Bấm <span class="ui">Đăng xuất</span> khi dùng máy của người khác hoặc máy dùng chung.</p>
+      <h3>Hai loại tài khoản</h3>
+      <ul>
+        <li><b>Người xem:</b> xem Tổng quan, Biểu đồ và xuất CSV.</li>
+        <li><b>Quản trị viên:</b> thêm mục Quản trị để cấu hình kết nối, thiết bị, người dùng và cài đặt.</li>
+      </ul>
+    </div>
+    <figure class="cut-account"><img src="img/tai-khoan.png" alt="Trang Tài khoản"><figcaption>Trang Tài khoản</figcaption></figure>
+  </div>
+</section>
+
+<section>
+  <h2><span class="n">!</span>Khi gặp sự cố</h2>
+  <table>
+    <thead><tr><th style="width:58mm">Hiện tượng</th><th>Cách xử lý</th></tr></thead>
+    <tbody>
+      <tr><td>Ở xa, trang không mở được (trình duyệt chờ mãi hoặc báo không tìm thấy trang)</td><td>Mở ứng dụng Tailscale: xem đã bật kết nối chưa, có đúng tài khoản được mời không. Gõ lại đủ địa chỉ có đuôi <code>.ts.net</code>. Thử tắt rồi bật lại Tailscale. Vẫn không được thì có thể Internet hoặc điện ở trại đang mất: báo quản trị viên.</td></tr>
+      <tr><td>Ở trại, trình duyệt báo kết nối không riêng tư, chứng chỉ không đáng tin cậy</td><td>Máy chưa cài chứng chỉ của trại. Nhờ quản trị viên cài (mục 9.4).</td></tr>
+      <tr><td>“Sai tên đăng nhập hoặc mật khẩu.”</td><td>Kiểm tra chữ hoa, chữ thường. Tắt bộ gõ tiếng Việt khi gõ mật khẩu.</td></tr>
+      <tr><td>“Tạm khóa đăng nhập 10 phút vì nhập sai quá nhiều lần.”</td><td>Chờ 10 phút rồi thử lại, hoặc nhờ quản trị viên đặt lại mật khẩu.</td></tr>
+      <tr><td>Trang bắt đăng nhập lại</td><td>Bình thường nếu 7 ngày chưa mở trang, hoặc quản trị viên vừa đặt lại mật khẩu cho bạn. Nếu không đăng nhập được nữa, có thể tài khoản đã bị khóa: hỏi quản trị viên.</td></tr>
+      <tr><td>Mục Quản trị báo “Chỉ dành cho quản trị viên”</td><td>Tài khoản Người xem không vào được phần cấu hình. Cần thì nhờ quản trị viên.</td></tr>
+      <tr><td>Số liệu đứng yên, có thanh “Mất kết nối trực tiếp tới Pi”</td><td>Kiểm tra mạng của điện thoại. Trang tự nối lại; nếu lâu không được thì tải lại trang.</td></tr>
+      <tr><td>Thẻ có viền đỏ hoặc nền xám</td><td>Xem bảng tình trạng thẻ ở mục 4 và báo quản trị viên nếu cần.</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<section>
+  <h2><span class="n">9</span>Dành cho quản trị viên</h2>
+  <p>Phần này dành cho người quản lý tài khoản. Cách cài Datalogger và bật truy cập từ xa có ở README của dự án (mục “Truy cập từ xa qua Tailscale”).</p>
+
+  <h3>9.1 Thêm một người dùng</h3>
+  <ol class="steps">
+    <li><b>Tạo tài khoản web:</b> vào <span class="ui">Quản trị · Người dùng</span> → <span class="ui">Thêm người dùng</span>. Chọn vai trò <b>Người xem</b> (xem, biểu đồ, xuất CSV) hoặc <b>Quản trị viên</b>. Chép mật khẩu tạm và gửi riêng cho người đó, ví dụ nhắn trực tiếp. Họ phải đổi mật khẩu ở lần đăng nhập đầu.</li>
+    <li><b>Nếu người đó cần xem từ xa:</b> mở trang quản trị Tailscale <code>login.tailscale.com/admin</code> → <span class="ui">Machines</span> → menu ở dòng Datalogger → <span class="ui">Share</span> → gửi qua email hoặc <span class="ui">Copy invite link</span>. Người nhận đăng nhập bằng tài khoản của chính họ và chỉ thấy đúng Datalogger, không thấy máy nào khác của trại. Link chưa dùng hết hạn sau 30 ngày.</li>
+    <li>Điền địa chỉ và tên đăng nhập vào ô ở trang đầu tài liệu này rồi đưa cho họ.</li>
+  </ol>
+
+  <h3>9.2 Khi một người nghỉ việc hoặc mất điện thoại</h3>
+  <ul>
+    <li><b>Tài khoản web:</b> <span class="ui">Quản trị · Người dùng</span> → <span class="ui">Khóa</span>. Người đó bị đăng xuất ngay trên mọi máy và không đăng nhập được nữa.</li>
+    <li><b>Tailscale:</b> <span class="ui">Machines</span> → Datalogger → <span class="ui">Share</span> → <span class="ui">Revoke invite</span> với người được chia sẻ. Với người được mời vào cả mạng Tailscale: <span class="ui">Users</span> → menu cuối dòng → <span class="ui">Suspend user</span> hoặc <span class="ui">Delete user</span>.</li>
+  </ul>
+  <p>Khóa tài khoản web là đủ để chặn xem số liệu. Gỡ thêm quyền Tailscale để người đó không còn tới được trang đăng nhập.</p>
+
+  <h3>9.3 Đặt lại mật khẩu</h3>
+  <p><span class="ui">Quản trị · Người dùng</span> → <span class="ui">Đặt lại mật khẩu</span> ở dòng của người đó, rồi gửi mật khẩu tạm mới cho họ. Họ phải đổi mật khẩu ở lần đăng nhập kế tiếp.</p>
+
+  <div style="break-inside: avoid">
+  <h3>9.4 Cài chứng chỉ của trại (cho địa chỉ khi ở trại)</h3>
+  <p>Chỉ cần cho máy vào bằng địa chỉ khi ở trại. Địa chỉ từ xa <code>.ts.net</code> đã có chứng chỉ hợp lệ nên không cần bước này.</p>
+  <ol class="steps">
+    <li>Trên Datalogger: <code>sudo cp /var/lib/caddy/.local/share/caddy/pki/authorities/local/root.crt /tmp/greenhouse-ca.crt</code>, rồi chép file sang điện thoại (cáp USB, email nội bộ...).</li>
+    <li><b>Android:</b> Cài đặt → Bảo mật → Mã hóa và thông tin xác thực → Cài chứng chỉ → Chứng chỉ CA, chọn file vừa chép. Tên mục có thể khác đôi chút tùy hãng điện thoại.</li>
+    <li><b>iPhone, iPad:</b> mở file để cài hồ sơ, rồi vào Cài đặt → Cài đặt chung → Giới thiệu → Cài đặt tin cậy chứng nhận → bật cho chứng chỉ của Caddy.</li>
+  </ol>
+  </div>
+
+  <div style="break-inside: avoid">
+  <h3>9.5 Đặt tọa độ trại</h3>
+  <ol class="steps">
+    <li>Đứng tại trại, lấy tọa độ từ app bản đồ trên điện thoại, ví dụ <code>11.940000, 108.440000</code>.</li>
+    <li>Vào <span class="ui">Quản trị · Cài đặt</span>, dán vào ô <span class="ui">Tọa độ trại</span>, bấm <span class="ui">Lưu cài đặt</span>. Muốn sửa thì dán tọa độ mới; để trống rồi lưu là xóa.</li>
+    <li>Mở trang <span class="ui">Bản đồ</span>. Nếu chưa có bản đồ nền, trang hiện sẵn các lệnh để cài; người có quyền truy cập Datalogger chạy các lệnh đó một lần.</li>
+  </ol>
+  </div>
+
+  <div class="note warn small">
+    <p><b>Về gói Tailscale.</b> Gói Personal miễn phí dành cho mục đích phi thương mại, tối đa 6 người dùng. Nếu trại dùng hệ thống cho sản xuất kinh doanh, xem các gói trả phí ở <code>tailscale.com/pricing</code>.</p>
+  </div>
+</section>
+
+</body>
+</html>

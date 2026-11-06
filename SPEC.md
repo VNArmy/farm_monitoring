@@ -356,6 +356,10 @@ Dành cho cả `viewer` và `admin`. Màn HDMI cắm vào Pi hiển thị bản 
 - Timestamp ISO 8601 kèm múi giờ; dấu chấm thập phân, dấu phẩy phân cách; UTF-8 có BOM để Excel hiển thị đúng tiếng Việt.
 - Xuất theo luồng (streaming), không nạp cả tập dữ liệu vào RAM.
 
+### Bản đồ trại
+
+Trang `/ban-do` hiện vị trí trại trên nền bản đồ lưu ngay trên Pi, cho cả viewer và admin; màn HMI không có trang này. Tọa độ do admin nhập, file bản đồ cài khi triển khai. Chi tiết ở [docs/spec-ban-do.md](docs/spec-ban-do.md).
+
 ### Màn hình HMI trên Pi
 
 Màn HDMI cắm thẳng vào Pi hiển thị trang `/hmi` do `web` phục vụ trên cổng riêng `127.0.0.1:8081`, chỉ nghe trên loopback (mục 3). Trang chỉ xem và không cần đăng nhập vì chỉ mở được từ chính Pi. Tablet và điện thoại vào `https://[địa chỉ Pi]` qua Caddy và đăng nhập như bình thường để xem và cấu hình.
@@ -429,7 +433,7 @@ Chỉ dành cho `admin`. Mọi thay đổi cấu hình áp dụng trong vài gi�
 
 ### 8.7 Cài đặt, màn hình HMI và nhật ký
 
-- Tên site, múi giờ hiển thị (mặc định Asia/Ho\_Chi\_Minh), thời gian lưu dữ liệu thô, lịch backup, tải bản backup.
+- Tên site, tọa độ trại, múi giờ hiển thị (mặc định Asia/Ho\_Chi\_Minh), thời gian lưu dữ liệu thô, lịch backup, tải bản backup.
 - Audit log: ai, lúc nào, đổi gì (giá trị trước và sau); lọc theo user và đối tượng.
 - Màn hình HMI: trạng thái (đang hiển thị hay không, độ phân giải, kết nối từ lúc nào, lấy từ kết nối SSE của trang HMI); chọn bố cục HMI thẻ lớn hoặc Tổng quan; chọn thẻ hiện trên HMI và thứ tự; cho xem biểu đồ lịch sử trên HMI. Thay đổi áp dụng ngay qua SSE, không cần tải lại.
 - Nút Tải lại màn hình HMI gửi sự kiện reload tới trang HMI, dùng khi màn hiển thị bất thường mà không cần ra tận Pi. Mã QR trên ngăn kéo HMI sinh ở frontend từ địa chỉ LAN của Pi, không gọi dịch vụ ngoài.
@@ -446,6 +450,7 @@ REST trả JSON, tiền tố `/api`, xác thực bằng session cookie; luồng 
 | Dữ liệu | `GET /readings?channels=1,2&from=&to=&max_points=2000` | viewer |
 | Dữ liệu | `GET /export.csv?channels=&from=&to=&resolution=`, resolution là raw, 5m, 1h hoặc 1d | viewer |
 | Dữ liệu | `GET /devices`, `GET /channels` (chỉ đọc) | viewer |
+| Bản đồ | `GET /map/config`, `GET /map/basemap.pmtiles` (đọc theo Range). Không có trên cổng HMI | viewer |
 | HMI | `GET /hmi/overview`, `GET /hmi/stream`; `GET /hmi/readings` khi admin cho xem biểu đồ. Chỉ có trên cổng 127.0.0.1:8081 | không cần đăng nhập, chỉ từ chính Pi |
 | Người dùng | `GET, POST /admin/users`; `PATCH /admin/users/{id}`; `POST /admin/users/{id}/reset-password` | admin |
 | Kết nối | `GET, POST /admin/connections`; `GET, PATCH, DELETE /admin/connections/{id}`; `POST /admin/connections/{id}/test`; `GET /admin/serial-ports` | admin |

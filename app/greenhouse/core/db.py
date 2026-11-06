@@ -20,6 +20,8 @@ DEFAULT_SETTINGS: dict[str, Any] = {
     "site_name": "Nhà kính",
     "timezone": "Asia/Ho_Chi_Minh",
     "public_url": "",
+    "site_lat": None,
+    "site_lng": None,
     "raw_retention_days": 365,
     "backup_time": "02:00",
     "backup_keep": 7,
