@@ -345,6 +345,9 @@ legend { padding: 0; margin-bottom: 8px; font-size: 13px; font-weight: 500; colo
 
 .split { display: grid; grid-template-columns: 360px minmax(0, 1fr); gap: 24px; align-items: start; }
 .split.w280 { grid-template-columns: 280px minmax(0, 1fr); }
+.split.w360 { grid-template-columns: minmax(0, 360px) minmax(0, 1fr); gap: 20px; }
+.split.w400 { grid-template-columns: minmax(0, 400px) minmax(0, 1fr); gap: 20px; }
+.split.w420 { grid-template-columns: minmax(0, 420px) minmax(0, 1fr); }
 .split.w580 { grid-template-columns: minmax(0, 580px) minmax(0, 1fr); gap: 20px; }
 .split.even { grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr); gap: 20px; }
 .split.even13 { grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr); gap: 20px; }
@@ -352,6 +355,10 @@ legend { padding: 0; margin-bottom: 8px; font-size: 13px; font-weight: 500; colo
 .split.diag { grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr); gap: 20px; }
 @container (max-width: 1000px) {
   .split, .split.w280, .split.w580, .split.even, .split.even13, .split.side400, .split.diag { grid-template-columns: minmax(0, 1fr); }
+}
+/* Cột form có độ rộng cố định nên giữ được hai cột lâu hơn các trang trên. */
+@container (max-width: 760px) {
+  .split.w360, .split.w400, .split.w420 { grid-template-columns: minmax(0, 1fr); }
 }
 
 .tbl-wrap { background: #fff; border: 1px solid var(--border); border-radius: 12px; padding: 4px 8px; overflow-x: auto; }

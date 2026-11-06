@@ -218,7 +218,7 @@ onBeforeUnmount(() => clearTimeout(timer));
       <p>Thêm một bus RS-485 hoặc Modbus TCP trước khi quét.</p>
       <RouterLink class="btn primary" to="/quan-tri/ket-noi">Thêm kết nối</RouterLink>
     </div>
-    <div v-else class="split side400" style="grid-template-columns: minmax(0, 400px) minmax(0, 1fr)">
+    <div v-else class="split w400">
       <form class="panel p20" novalidate @submit.prevent="start">
         <h2 class="panel-title sm">Quét địa chỉ</h2>
         <FormField label="Kết nối" input-id="q-kn" :hint="conn ? connSummary(conn) : ''">

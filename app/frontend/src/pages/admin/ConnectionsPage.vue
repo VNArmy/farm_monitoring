@@ -225,7 +225,7 @@ onMounted(() => void attempt(() => load()));
     </div>
 
     <div v-if="!loaded" class="loading"><div class="spinner" role="status" aria-label="Đang tải" /></div>
-    <div v-else class="split w580" style="grid-template-columns: minmax(0, 360px) minmax(0, 1fr)">
+    <div v-else class="split w360">
       <div class="col gap-12">
         <div v-if="!conns.length" class="empty">
           <h2>Chưa có kết nối nào</h2>

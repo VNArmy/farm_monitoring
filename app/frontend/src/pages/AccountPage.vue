@@ -54,7 +54,7 @@ async function submit(): Promise<void> {
       <Icon name="key" :size="20" />
       <div class="body"><span class="strong">Bạn đang dùng mật khẩu tạm.</span> Đổi mật khẩu trước khi tiếp tục.</div>
     </div>
-    <div class="split" style="grid-template-columns: minmax(0, 420px) minmax(0, 1fr)">
+    <div class="split w420">
       <div class="col gap-16">
         <section class="panel p20">
           <div class="row">
